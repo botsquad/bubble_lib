@@ -20,7 +20,7 @@ by adding `bubble_xml` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:bubble_xml, "~> 0.1.0"}
+    {:bubble_lib, "~> 1.0"}
   ]
 end
 ```

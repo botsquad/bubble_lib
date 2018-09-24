@@ -1,5 +1,7 @@
 # BubbleLib
 
+[![Build Status](https://travis-ci.org/botsquad/bubble_lib.svg?branch=master)](https://travis-ci.org/botsquad/bubble_lib)
+
 Generic collection of utility functions for BubbleScript.
 
 * `BubbleLib.XML` — XML handling (parse / build / query), using `:xmerl`

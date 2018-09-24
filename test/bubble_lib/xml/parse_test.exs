@@ -83,10 +83,37 @@ defmodule BubbleLib.XML.ParseTest do
   </profile>
   )
 
+  @and_another_xml ~s(<?xml version='1.0' encoding='us-ascii'?>
+
+<!--  A SAMPLE set of slides  -->
+
+<slideshow
+    title="Sample Slide Show"
+    date="Date of publication"
+    author="Yours Truly"
+    >
+<?xml-stylesheet type="text/css" href="test.css"?>
+
+    <!-- TITLE SLIDE -->
+    <slide type="all">
+      <title>Wake up to WonderWidgets!</title>
+    </slide>
+
+    <!-- OVERVIEW -->
+    <slide type="all">
+        <title>Overview</title>
+        <item>Why <em>WonderWidgets</em> are great</item>
+        <item/>
+        <item>Who <em>buys</em> WonderWidgets</item>
+    </slide>
+
+</slideshow>  )
+
   test "complicated xml" do
     parsed = xml_parse(@complicated_xml)
     assert ["visitor", %{"code" => _}, [_ | _]] = parsed
     assert ["profile", %{"code" => _}, [_ | _]] = xml_parse(@another_xml)
+    assert ["slideshow", %{}, [_ | _]] = xml_parse(@and_another_xml)
   end
 
   test "CDATA" do

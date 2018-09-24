@@ -8,6 +8,14 @@ defmodule BubbleLib.XML.Parse do
     |> xmerl_element()
   end
 
+  def xmerl_element(xmlComment()) do
+    :skip
+  end
+
+  def xmerl_element(xmlPI()) do
+    :skip
+  end
+
   def xmerl_element(xmlText(value: value)) do
     case IO.chardata_to_string(value) |> String.trim() do
       "" -> :skip

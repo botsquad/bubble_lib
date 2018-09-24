@@ -1,6 +1,5 @@
 defmodule BubbleXml.Parse do
   require Record
-  import Bubble.MapUtil, only: [normalize: 1]
 
   Record.defrecord(
     :xmlAttribute,

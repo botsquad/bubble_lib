@@ -39,4 +39,35 @@ defmodule BubbleLib.XML.XPathTest do
     assert [["question", %{"code" => "e7irg9py"}, _]] =
              xml_xpath(@another_xml, "/profile/question[@code=\"e7irg9py\"]")
   end
+
+  @and_another_xml ~s(<?xml version='1.0' encoding='us-ascii'?>
+
+<!--  A SAMPLE set of slides  -->
+
+<slideshow
+    title="Sample Slide Show"
+    date="Date of publication"
+    author="Yours Truly"
+    >
+<?xml-stylesheet type="text/css" href="test.css"?>
+
+    <!-- TITLE SLIDE -->
+    <slide type="all">
+      <title>Wake up to WonderWidgets!</title>
+    </slide>
+
+    <!-- OVERVIEW -->
+    <slide type="all">
+        <title>Overview</title>
+        <item>Why <em>WonderWidgets</em> are great</item>
+        <item/>
+        <item>Who <em>buys</em> WonderWidgets</item>
+    </slide>
+
+</slideshow>  )
+
+  test "complicated XPath" do
+    xml = BubbleLib.XML.xml_parse(@and_another_xml)
+    assert "Overview" = xml_xpath(xml, "/slideshow/slide[2]/title/text()")
+  end
 end

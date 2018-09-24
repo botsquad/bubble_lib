@@ -14,7 +14,7 @@ defmodule BubbleLib.XML.BuildTest do
   end
 
   test "child elements" do
-    assert "<foo><bar/></foo>" == xml_build(["foo", nil, ["bar", nil, nil]])
+    assert "<foo><bar/></foo>" == xml_build(["foo", nil, [["bar", nil, nil]]])
 
     assert "<foo><bar/><bar/></foo>" ==
              xml_build(["foo", nil, [["bar", nil, nil], ["bar", nil, nil]]])

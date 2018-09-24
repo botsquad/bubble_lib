@@ -45,11 +45,6 @@ defmodule BubbleLib.XML.Xmerl do
     [xmlText(value: value)]
   end
 
-  defp xmerl_content([elem, _, _] = content) when is_binary(elem) do
-    # shortcut
-    xmerl_content([content])
-  end
-
   defp xmerl_content(content) when is_list(content) do
     content
     |> Enum.map(&xmerl_element/1)

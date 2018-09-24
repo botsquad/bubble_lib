@@ -4,6 +4,10 @@ variables:
   MIX_ENV: "test"
 
 before_script:
+  - mkdir -p ~/.ssh
+  - echo "$DOKKU_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+  - chmod 600 ~/.ssh/id_rsa
+  - ssh-keyscan -H 'gitlab.com' >> ~/.ssh/known_hosts
   - mix local.hex --force
   - mix local.rebar --force
   - mix deps.get --only test

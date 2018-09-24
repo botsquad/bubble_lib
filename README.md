@@ -1,13 +1,13 @@
 # BubbleLib
 
-[![Hex.pm Version](http://img.shields.io/hexpm/v/bubble_lib.svg?style=flat)](https://hex.pm/packages/bubble_lib)
+[![Hex.pm Version](http://img.shields.io/hexpm/v/bubble_lib.svg?style=flat)](https://hex.pm/packages/bubble_lib) [![Build Status](https://travis-ci.com/botsquad/bubble_lib.svg?branch=master)](https://travis-ci.com/botsquad/bubble_lib)
 
-[![Build Status](https://travis-ci.com/botsquad/bubble_lib.svg?branch=master)](https://travis-ci.com/botsquad/bubble_lib)
+BubbleLib contains a collection of utility functions for BubbleScript,
+the conversational DSL powering the
+[Botsquad](https://www.botsquad.com/) platform.
 
-Generic collection of utility functions for BubbleScript.
-
+* `BubbleLib.Builtins` — BubbleScript's [builtin functions](https://doc.botsquad.com/dsl/builtins/) and "loose" operators
 * `BubbleLib.XML` — XML handling (parse / build / query), using `:xmerl`
-* `BubbleLib.Builtins` — easy to use builtin functions and "loose" operators
 * `BubbleLib.AutoMap` — "Easy" lossy / auto maps / array access
 * `%BubbleLib.AutoMap.ETS{}` for storing large collections in AutoMap
 

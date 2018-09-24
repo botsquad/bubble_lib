@@ -21,7 +21,8 @@ defmodule BubbleLib.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:bubble, git: "git@gitlab.com:botsquad/bubble.git", branch: "master"}
+      {:poison, "~> 3.0"},
+      {:match_engine, "~> 1.0"}
     ]
   end
 end

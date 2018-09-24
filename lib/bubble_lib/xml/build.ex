@@ -1,5 +1,5 @@
 defmodule BubbleLib.XML.Build do
-  import Bubble.MapUtil, only: [normalize: 1]
+  import BubbleLib.MapUtil, only: [normalize: 1]
   import BubbleLib.XML.Xmerl, only: [xmerl_to_string: 1, to_xmerl: 1]
 
   def xml_build(data) do

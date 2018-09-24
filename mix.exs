@@ -21,8 +21,7 @@ defmodule BubbleXml.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:bubble, git: "git@gitlab.com:botsquad/bubble.git", branch: "master"},
-      {:xml_builder, "~> 2.0.0"}
+      {:bubble, git: "git@gitlab.com:botsquad/bubble.git", branch: "master"}
     ]
   end
 end

@@ -5,4 +5,5 @@ defmodule BubbleXml do
 
   defdelegate xml_build(data), to: BubbleXml.Build
   defdelegate xml_parse(data), to: BubbleXml.Parse
+  defdelegate xml_xpath(data, query), to: BubbleXml.XPath
 end

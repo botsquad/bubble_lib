@@ -8,4 +8,8 @@ defmodule BubbleXmlTest do
   test "xml_parse delegate" do
     assert ["foo", %{}, []] == BubbleXml.xml_parse("<foo/>")
   end
+
+  test "xml_xpath delegate" do
+    assert "bas" = BubbleXml.xml_xpath("<foo><bar>bas</bar></foo>", "/foo/bar/text()")
+  end
 end

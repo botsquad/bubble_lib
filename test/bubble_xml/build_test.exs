@@ -22,4 +22,9 @@ defmodule BubbleXml.BuildTest do
     assert "<foo><bar>bas</bar><bar b=\"2\"/></foo>" ==
              xml_build(["foo", nil, [["bar", nil, "bas"], ["bar", [b: 2], nil]]])
   end
+
+  test "escaping" do
+    assert "<foo bar=\"&amp;&lt;&gt;\">foo&amp;bar</foo>" ==
+             xml_build(["foo", %{"bar" => "&<>"}, "foo&bar"])
+  end
 end

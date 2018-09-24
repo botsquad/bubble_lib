@@ -1,14 +1,14 @@
-language: elixir
-elixir:
-  - 1.6
-  - 1.7
-otp_release:
-  - 20.0
-branches:
-  only:
-    - master
+image: elixir:1.6
+
 variables:
-  MIX_ENV: test
-script:
-  - mix compile --warnings-as-errors
-  - mix test
+  MIX_ENV: "test"
+
+before_script:
+  - mix local.hex --force
+  - mix local.rebar --force
+  - mix deps.get --only test
+
+test:
+  script:
+    - mix compile --warnings-as-errors
+    - mix test

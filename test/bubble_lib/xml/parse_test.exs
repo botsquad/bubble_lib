@@ -1,7 +1,7 @@
-defmodule BubbleXml.ParseTest do
+defmodule BubbleLib.XML.ParseTest do
   use ExUnit.Case
 
-  import BubbleXml.Parse
+  import BubbleLib.XML.Parse
 
   @pairs [
     {"<foo/>", ["foo", %{}, []]},

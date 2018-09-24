@@ -1,9 +1,9 @@
-defmodule BubbleXml.MixProject do
+defmodule BubbleLib.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :bubble_xml,
+      app: :bubble_lib,
       version: File.read!("VERSION"),
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,

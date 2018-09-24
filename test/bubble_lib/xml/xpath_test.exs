@@ -1,6 +1,6 @@
-defmodule BubbleXml.XPathTest do
+defmodule BubbleLib.XML.XPathTest do
   use ExUnit.Case
-  import BubbleXml.XPath
+  import BubbleLib.XML.XPath
 
   test "XPATH selection" do
     assert "bas" = xml_xpath("<foo><bar>bas</bar></foo>", "/foo/bar/text()")

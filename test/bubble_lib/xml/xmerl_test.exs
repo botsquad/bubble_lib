@@ -1,6 +1,6 @@
-defmodule BubbleXml.XmerlTest do
+defmodule BubbleLib.XML.XmerlTest do
   use ExUnit.Case
-  import BubbleXml.Xmerl
+  import BubbleLib.XML.Xmerl
 
   test "to xmerl" do
     assert xmlElement(name: :a) = to_xmerl(["a", nil, nil])

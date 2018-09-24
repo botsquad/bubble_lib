@@ -1,4 +1,4 @@
-defmodule BubbleXml.XmerlRecords do
+defmodule BubbleLib.XML.XmerlRecords do
   defmacro __using__(_) do
     quote do
       require Record

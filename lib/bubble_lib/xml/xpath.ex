@@ -1,6 +1,6 @@
-defmodule BubbleXml.XPath do
-  import BubbleXml.Xmerl, only: [to_xmerl: 1]
-  import BubbleXml.Parse
+defmodule BubbleLib.XML.XPath do
+  import BubbleLib.XML.Xmerl, only: [to_xmerl: 1]
+  import BubbleLib.XML.Parse
 
   def xml_xpath(doc, selector) do
     :xmerl_xpath.string(to_charlist(selector), to_xmerl(doc))

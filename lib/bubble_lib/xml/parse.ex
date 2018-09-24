@@ -1,6 +1,6 @@
-defmodule BubbleXml.Parse do
-  use BubbleXml.XmerlRecords
-  import BubbleXml.Xmerl, only: [to_xmerl: 1]
+defmodule BubbleLib.XML.Parse do
+  use BubbleLib.XML.XmerlRecords
+  import BubbleLib.XML.Xmerl, only: [to_xmerl: 1]
 
   def xml_parse(xml_string) when is_binary(xml_string) do
     xml_string

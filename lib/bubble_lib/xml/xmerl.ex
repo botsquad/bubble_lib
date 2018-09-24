@@ -1,8 +1,8 @@
-defmodule BubbleXml.Xmerl do
+defmodule BubbleLib.XML.Xmerl do
   @moduledoc """
   Convert 'plain' tuple notation into full XMerl XML notation
   """
-  use BubbleXml.XmerlRecords
+  use BubbleLib.XML.XmerlRecords
 
   def to_xmerl(content) when is_binary(content) do
     {doc, []} =

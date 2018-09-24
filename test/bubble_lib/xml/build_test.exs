@@ -1,7 +1,7 @@
-defmodule BubbleXml.BuildTest do
+defmodule BubbleLib.XML.BuildTest do
   use ExUnit.Case
 
-  import BubbleXml.Build
+  import BubbleLib.XML.Build
 
   test "basic elements" do
     assert "<foo/>" == xml_build(["foo", nil, nil])

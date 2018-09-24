@@ -2,7 +2,7 @@
 
 [![Hex.pm Version](http://img.shields.io/hexpm/v/bubble_lib.svg?style=flat)](https://hex.pm/packages/bubble_lib)
 
-[![Build Status](https://travis-ci.org/botsquad/bubble_lib.svg?branch=master)](https://travis-ci.org/botsquad/bubble_lib)
+[![Build Status](https://travis-ci.com/botsquad/bubble_lib.svg?branch=master)](https://travis-ci.com/botsquad/bubble_lib)
 
 Generic collection of utility functions for BubbleScript.
 

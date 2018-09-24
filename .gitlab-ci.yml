@@ -1,0 +1,14 @@
+language: elixir
+elixir:
+  - 1.6
+  - 1.7
+otp_release:
+  - 20.0
+branches:
+  only:
+    - master
+variables:
+  MIX_ENV: test
+script:
+  - mix compile --warnings-as-errors
+  - mix test

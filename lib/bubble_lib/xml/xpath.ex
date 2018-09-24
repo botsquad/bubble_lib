@@ -4,14 +4,14 @@ defmodule BubbleLib.XML.XPath do
 
   def xml_xpath(doc, selector) do
     :xmerl_xpath.string(to_charlist(selector), to_xmerl(doc))
-    |> maybe_list_xmerl_element()
+    |> maybe_list_simple_element()
   end
 
-  defp maybe_list_xmerl_element(results) when is_list(results) do
-    xmerl_content(results)
+  defp maybe_list_simple_element(results) when is_list(results) do
+    simple_content(results)
   end
 
-  defp maybe_list_xmerl_element(result) do
-    xmerl_element(result)
+  defp maybe_list_simple_element(result) do
+    simple_element(result)
   end
 end

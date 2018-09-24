@@ -1,6 +1,7 @@
 defmodule BubbleLib.XML.XPathTest do
   use ExUnit.Case
   import BubbleLib.XML.XPath
+  use BubbleLib.XML.XmerlRecords
 
   test "XPATH selection" do
     assert "bas" = xml_xpath("<foo><bar>bas</bar></foo>", "/foo/bar/text()")
@@ -66,8 +67,10 @@ defmodule BubbleLib.XML.XPathTest do
 
 </slideshow>  )
 
-  test "complicated XPath" do
+  test "some more XPath" do
     xml = BubbleLib.XML.xml_parse(@and_another_xml)
+
+    assert [_, _] = xml_xpath(xml, "/slideshow/slide")
     assert "Overview" = xml_xpath(xml, "/slideshow/slide[2]/title/text()")
   end
 end

@@ -5,29 +5,29 @@ defmodule BubbleLib.XML.Parse do
   def xml_parse(xml_string) when is_binary(xml_string) do
     xml_string
     |> to_xmerl()
-    |> xmerl_element()
+    |> simple_element()
   end
 
-  def xmerl_element(xmlComment()) do
+  def simple_element(xmlComment()) do
     :skip
   end
 
-  def xmerl_element(xmlPI()) do
+  def simple_element(xmlPI()) do
     :skip
   end
 
-  def xmerl_element(xmlText(value: value)) do
+  def simple_element(xmlText(value: value)) do
     case IO.chardata_to_string(value) |> String.trim() do
       "" -> :skip
       text -> text
     end
   end
 
-  def xmerl_element(xmlElement(name: name, attributes: attributes, content: content)) do
-    [to_string(name), xmerl_attributes(attributes), xmerl_content(content)]
+  def simple_element(xmlElement(name: name, attributes: attributes, content: content)) do
+    [to_string(name), simple_attributes(attributes), simple_content(content)]
   end
 
-  def xmerl_attributes(attributes) do
+  def simple_attributes(attributes) do
     attributes
     |> Enum.map(fn xmlAttribute(name: name, value: value) ->
       {to_string(name), to_string(value)}
@@ -35,18 +35,25 @@ defmodule BubbleLib.XML.Parse do
     |> Map.new()
   end
 
-  def xmerl_content([xmlText(value: _value) = elem]) do
-    xmerl_element(elem)
+  def simple_content([xmlText(value: _value) = elem]) do
+    simple_element(elem)
   end
 
-  def xmerl_content(children) do
+  def simple_content(children) do
     children
-    |> Enum.reduce([], fn child, acc ->
-      case xmerl_element(child) do
-        :skip -> acc
-        result -> [result | acc]
-      end
-    end)
+    |> Enum.reduce([], &simple_content_reducer/2)
     |> Enum.reverse()
+  end
+
+  defp simple_content_reducer([xmlText() = child], acc) do
+    # xmerl weirdness: sometimes, a child element contains a nested list
+    simple_content_reducer(child, acc)
+  end
+
+  defp simple_content_reducer(child, acc) do
+    case simple_element(child) do
+      :skip -> acc
+      result -> [result | acc]
+    end
   end
 end

@@ -3,16 +3,5 @@ defmodule BubbleXml do
   Documentation for BubbleXml.
   """
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> BubbleXml.hello()
-      :world
-
-  """
-  def hello do
-    :world
-  end
+  defdelegate xml_build(data), to: BubbleXml.Build
 end

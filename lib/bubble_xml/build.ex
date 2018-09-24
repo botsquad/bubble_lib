@@ -1,7 +1,9 @@
 defmodule BubbleXml.Build do
-  def build_xml(data) do
+  import Bubble.MapUtil, only: [normalize: 1]
+
+  def xml_build(data) do
     data
-    |> Bubble.MapUtil.normalize()
+    |> normalize()
     |> element()
     |> XmlBuilder.generate(format: :none)
   end

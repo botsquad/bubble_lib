@@ -1,8 +1,11 @@
 defmodule BubbleXmlTest do
   use ExUnit.Case
-  doctest BubbleXml
 
-  test "greets the world" do
-    assert BubbleXml.hello() == :world
+  test "xml_build delegate" do
+    assert "<foo/>" == BubbleXml.xml_build(["foo", %{}, []])
+  end
+
+  test "xml_parse delegate" do
+    assert ["foo", %{}, []] == BubbleXml.xml_parse("<foo/>")
   end
 end

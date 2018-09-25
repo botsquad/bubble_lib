@@ -133,6 +133,8 @@ defmodule BubbleLib.MapUtil.AutoMap do
   end
 
   defp ensure_list(list, index, value) when is_list(list) do
+    value = recombine_list_value(Enum.at(list, index), value)
+
     list =
       case length(list) > index do
         true ->
@@ -149,6 +151,16 @@ defmodule BubbleLib.MapUtil.AutoMap do
       {v, _} -> v
     end)
   end
+
+  defp recombine_list_value(old, new) when is_list(new) and is_list(old) do
+    new
+    |> Enum.zip(0..(length(new) - 1))
+    |> Enum.map(fn {val, idx} ->
+      val || Enum.at(old, idx)
+    end)
+  end
+
+  defp recombine_list_value(_old, new), do: new
 
   def remove(map, []) do
     map

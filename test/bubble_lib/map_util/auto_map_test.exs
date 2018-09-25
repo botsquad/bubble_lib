@@ -32,6 +32,11 @@ defmodule BubbleLib.MapUtil.AutoMapTest do
     # extend existing array
     assert %{"a" => [0, nil, 123]} == AutoMap.put_in(%{"a" => [0]}, [:a, 2], 123)
     assert %{"a" => [0, nil, nil, nil, 123]} == AutoMap.put_in(%{"a" => [0]}, [:a, 4], 123)
+
+    # extend nested array
+    assert [0, 1, [:a]] == AutoMap.put_in([0, 1, []], [2, 0], :a)
+    assert [0, 1, [:x, :a]] == AutoMap.put_in([0, 1, [:x]], [2, 1], :a)
+    assert [0, 1, [:x, :y, :a]] == AutoMap.put_in([0, 1, [:x, :y]], [2, 2], :a)
   end
 
   test "get in" do

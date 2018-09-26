@@ -161,12 +161,12 @@ defmodule BubbleLib.MapUtil.AutoMap do
     end)
   end
 
-  def list_indices(a, b) do
-    0..(max(length(a), length(b)) - 1)
-  end
-
   defp recombine_list(old, new) do
     new || old
+  end
+
+  defp list_indices(a, b) do
+    0..(max(length(a), length(b)) - 1)
   end
 
   def remove(map, []) do

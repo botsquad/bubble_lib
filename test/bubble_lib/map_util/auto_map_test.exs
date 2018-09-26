@@ -40,6 +40,8 @@ defmodule BubbleLib.MapUtil.AutoMapTest do
 
     assert [["x", ["y", "z"]]] == AutoMap.put_in([["x", ["y"]]], [0, 1, 1], "z")
     assert [["x", ["y", nil, "z"]]] == AutoMap.put_in([["x", ["y"]]], [0, 1, 2], "z")
+
+    assert ["a", ["x", "bb", "z"]] == AutoMap.put_in(["a", ["x", "y", "z"]], [1, 1], "bb")
   end
 
   test "get in" do

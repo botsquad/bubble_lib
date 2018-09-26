@@ -153,12 +153,16 @@ defmodule BubbleLib.MapUtil.AutoMap do
   end
 
   defp recombine_list(old, new) when is_list(new) and is_list(old) do
-    new
-    |> Enum.zip(0..(length(new) - 1))
-    |> Enum.map(fn {newval, idx} ->
+    list_indices(old, new)
+    |> Enum.map(fn idx ->
       oldval = Enum.at(old, idx)
+      newval = Enum.at(new, idx)
       recombine_list(oldval, newval)
     end)
+  end
+
+  def list_indices(a, b) do
+    0..(max(length(a), length(b)) - 1)
   end
 
   defp recombine_list(old, new) do

@@ -37,6 +37,9 @@ defmodule BubbleLib.MapUtil.AutoMapTest do
     assert [0, 1, [:a]] == AutoMap.put_in([0, 1, []], [2, 0], :a)
     assert [0, 1, [:x, :a]] == AutoMap.put_in([0, 1, [:x]], [2, 1], :a)
     assert [0, 1, [:x, :y, :a]] == AutoMap.put_in([0, 1, [:x, :y]], [2, 2], :a)
+
+    assert [["x", ["y", "z"]]] == AutoMap.put_in([["x", ["y"]]], [0, 1, 1], "z")
+    assert [["x", ["y", nil, "z"]]] == AutoMap.put_in([["x", ["y"]]], [0, 1, 2], "z")
   end
 
   test "get in" do

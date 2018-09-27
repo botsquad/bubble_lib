@@ -1,7 +1,16 @@
 defmodule BubbleLib.XML.XPathTest do
   use ExUnit.Case
   import BubbleLib.XML.XPath
+  alias BubbleLib.XML.XPath.SyntaxError
   use BubbleLib.XML.XmerlRecords
+
+  test "Error handling" do
+    invalid = ~w|/foo/bar::test(), /foo/@bar:first()|
+
+    for xpath <- invalid do
+      assert_raise SyntaxError, fn -> xml_xpath("<foo />", xpath) end
+    end
+  end
 
   test "XPATH selection" do
     assert "bas" = xml_xpath("<foo><bar>bas</bar></foo>", "/foo/bar/text()")

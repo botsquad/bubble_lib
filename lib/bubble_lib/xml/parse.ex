@@ -23,6 +23,16 @@ defmodule BubbleLib.XML.Parse do
     end
   end
 
+  def simple_element(xmlAttribute(value: value)) do
+    cond do
+      is_integer(value) or is_atom(value) ->
+        value
+
+      true ->
+        IO.chardata_to_string(value)
+    end
+  end
+
   def simple_element(xmlElement(name: name, attributes: attributes, content: content)) do
     [to_string(name), simple_attributes(attributes), simple_content(content)]
   end

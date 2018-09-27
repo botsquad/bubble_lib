@@ -37,6 +37,8 @@ defmodule BubbleLib.XML.XPathTest do
   )
 
   test "Larger XML doc" do
+    assert ["2eojpc4ti97yk"] = xml_xpath(@another_xml, "/profile/@code")
+
     assert [["question", %{"code" => "e7irg9py"}, _]] =
              xml_xpath(@another_xml, "/profile/question[@code=\"e7irg9py\"]")
   end

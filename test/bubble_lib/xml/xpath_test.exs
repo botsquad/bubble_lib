@@ -8,13 +8,17 @@ defmodule BubbleLib.XML.XPathTest do
     invalid = ~w|/foo/bar::test(), /foo/@bar:first()|
 
     for xpath <- invalid do
-      assert_raise SyntaxError, fn -> xml_xpath("<foo />", xpath) end
+      assert_raise SyntaxError, fn -> xml_xpath_one("<foo />", xpath) end
+      assert_raise SyntaxError, fn -> xml_xpath_all("<foo />", xpath) end
     end
   end
 
   test "XPATH selection" do
-    assert "bas" = xml_xpath("<foo><bar>bas</bar></foo>", "/foo/bar/text()")
-    assert ["a", "b"] = xml_xpath("<foo><bar>a</bar><bar>b</bar></foo>", "/foo/bar/text()")
+    assert "bas" = xml_xpath_one("<foo><bar>bas</bar></foo>", "/foo/bar/text()")
+    assert ["bas"] = xml_xpath_all("<foo><bar>bas</bar></foo>", "/foo/bar/text()")
+
+    assert nil == xml_xpath_one("<foo><bar>a</bar><bar>b</bar></foo>", "/foo/bar/text()")
+    assert ["a", "b"] = xml_xpath_all("<foo><bar>a</bar><bar>b</bar></foo>", "/foo/bar/text()")
   end
 
   @another_xml ~s(
@@ -46,10 +50,14 @@ defmodule BubbleLib.XML.XPathTest do
   )
 
   test "Larger XML doc" do
-    assert ["2eojpc4ti97yk"] = xml_xpath(@another_xml, "/profile/@code")
+    assert "2eojpc4ti97yk" = xml_xpath_one(@another_xml, "/profile/@code")
+    assert ["2eojpc4ti97yk"] = xml_xpath_all(@another_xml, "/profile/@code")
 
     assert [["question", %{"code" => "e7irg9py"}, _]] =
-             xml_xpath(@another_xml, "/profile/question[@code=\"e7irg9py\"]")
+             xml_xpath_all(@another_xml, "/profile/question[@code=\"e7irg9py\"]")
+
+    assert ["question", %{"code" => "e7irg9py"}, _] =
+             xml_xpath_one(@another_xml, "/profile/question[@code=\"e7irg9py\"]")
   end
 
   @and_another_xml ~s(<?xml version='1.0' encoding='us-ascii'?>
@@ -81,7 +89,10 @@ defmodule BubbleLib.XML.XPathTest do
   test "some more XPath" do
     xml = BubbleLib.XML.xml_parse(@and_another_xml)
 
-    assert [_, _] = xml_xpath(xml, "/slideshow/slide")
-    assert "Overview" = xml_xpath(xml, "/slideshow/slide[2]/title/text()")
+    assert [_, _] = xml_xpath_all(xml, "/slideshow/slide")
+    assert nil == xml_xpath_one(xml, "/slideshow/slide")
+
+    assert "Overview" = xml_xpath_one(xml, "/slideshow/slide[2]/title/text()")
+    assert ["Overview"] = xml_xpath_all(xml, "/slideshow/slide[2]/title/text()")
   end
 end

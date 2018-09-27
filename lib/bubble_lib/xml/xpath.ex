@@ -7,30 +7,43 @@ defmodule BubbleLib.XML.XPath do
   end
 
   @doc """
-  Select values from the given XML using an XPath expression
+  Select a list of values or elements from the given XML using an XPath expression. Always returns a list.
   """
-  def xml_xpath(doc, selector) do
+  def xml_xpath_all(doc, selector) do
+    case xpath(doc, selector) do
+      list when is_list(list) ->
+        Enum.map(list, &simple_element/1)
+
+      value ->
+        [simple_element(value)]
+    end
+  end
+
+  @doc """
+  Select a single value or element from the given XML using an XPath
+  expression. If the result of the expression is not exactly one
+  single element, `nil` will be returned.
+  """
+  def xml_xpath_one(doc, selector) do
+    case xpath(doc, selector) do
+      [] -> nil
+      [value] -> simple_element(value)
+      list when is_list(list) -> nil
+      value -> simple_element(value)
+    end
+  end
+
+  defp xpath(doc, selector) do
     xmerl = to_xmerl(doc)
 
-    result =
-      try do
-        :xmerl_xpath.string(to_charlist(selector), xmerl)
-      rescue
-        FunctionClauseError ->
-          raise SyntaxError, selector
+    try do
+      :xmerl_xpath.string(to_charlist(selector), xmerl)
+    rescue
+      FunctionClauseError ->
+        raise SyntaxError, selector
 
-        MatchError ->
-          raise SyntaxError, selector
-      end
-
-    result |> maybe_list_simple_element()
-  end
-
-  defp maybe_list_simple_element(results) when is_list(results) do
-    simple_content(results)
-  end
-
-  defp maybe_list_simple_element(result) do
-    simple_element(result)
+      MatchError ->
+        raise SyntaxError, selector
+    end
   end
 end

@@ -10,6 +10,7 @@ defmodule BubbleLib.XMLTest do
   end
 
   test "xml_xpath delegate" do
-    assert "bas" = BubbleLib.XML.xml_xpath("<foo><bar>bas</bar></foo>", "/foo/bar/text()")
+    assert "bas" = BubbleLib.XML.xml_xpath_one("<foo><bar>bas</bar></foo>", "/foo/bar/text()")
+    assert ["bas"] = BubbleLib.XML.xml_xpath_all("<foo><bar>bas</bar></foo>", "/foo/bar/text()")
   end
 end

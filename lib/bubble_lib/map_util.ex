@@ -80,6 +80,10 @@ defmodule BubbleLib.MapUtil do
     Enum.to_list(value)
   end
 
+  def enum_materialize(%{__struct__: _} = value) do
+    value
+  end
+
   def enum_materialize(%{} = map) do
     map
     |> Enum.map(fn {k, v} -> {k, enum_materialize(v)} end)

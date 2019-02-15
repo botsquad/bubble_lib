@@ -27,6 +27,9 @@ defmodule BubbleLib.MapUtilTest do
     ets = ETS.new([a])
 
     assert %{x: [a]} == enum_materialize(%{x: ets})
+
+    l = %Location{}
+    assert %{x: ^l} = enum_materialize(%{x: l})
   end
 
   test "normalize" do

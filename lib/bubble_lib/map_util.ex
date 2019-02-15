@@ -13,14 +13,10 @@ defmodule BubbleLib.MapUtil do
     |> drop_nils()
   end
 
-  def deatomize(%ETS{} = value) do
-    value
-  end
-
   def deatomize(%{__struct__: _} = struct) do
     struct
-    |> Map.delete(:__struct__)
-    |> deatomize()
+    |> Map.keys()
+    |> Enum.reduce(struct, fn k, s -> Map.put(s, k, deatomize(Map.get(struct, k))) end)
   end
 
   def deatomize(%{} = map) do

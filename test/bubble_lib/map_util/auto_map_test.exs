@@ -47,6 +47,25 @@ defmodule BubbleLib.MapUtil.AutoMapTest do
              AutoMap.put_in([%{"x" => 2, "lat" => 1}], [0, "lat"], 123)
   end
 
+  test "put_in w/ struct" do
+    # invalid attr is ignored
+    assert %Location{lat: 1} == AutoMap.put_in(%Location{lat: 1}, ["foo"], 34423)
+
+    assert %Location{lat: 1} ==
+             AutoMap.put_in(%Location{lat: 1}, ["asdf0s8df0ds8f08ds0fsd809fds"], 34423)
+
+    # valid attributes are updated
+    assert %Location{lat: 123} == AutoMap.put_in(%Location{lat: 1}, ["lat"], 123)
+    assert %Location{lat: 123} == AutoMap.put_in(%Location{lat: 1}, [:lat], 123)
+
+    # also nested
+    assert %{"a" => %Location{lat: 123}} ==
+             AutoMap.put_in(%{"a" => %Location{lat: 1}}, ["a", "lat"], 123)
+
+    assert [%Location{lat: 123}] ==
+             AutoMap.put_in([%Location{lat: 1}], [0, "lat"], 123)
+  end
+
   test "get in" do
     assert nil == AutoMap.get_in(%{}, [:a, :b])
     assert 1 == AutoMap.get_in(%{"a" => 1}, [:a])

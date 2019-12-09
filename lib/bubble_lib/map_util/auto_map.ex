@@ -40,7 +40,7 @@ defmodule BubbleLib.MapUtil.AutoMap do
 
   defp access_get_and_update(list, key, fun)
        when is_list(list) and is_integer(key) and key >= 0 do
-    {_, value} = fun.(nil)
+    {_, value} = fun.(Enum.at(list, key))
     {nil, ensure_list(list, key, value)}
   end
 

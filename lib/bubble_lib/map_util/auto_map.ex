@@ -91,6 +91,14 @@ defmodule BubbleLib.MapUtil.AutoMap do
     get_in(MatchEngine.filter_all(list, query), tail)
   end
 
+  def get_in(map, [[{:id, key}] | tail]) when is_map(map) do
+    case Map.fetch(map, key) do
+      {:ok, value} -> [value]
+      :error -> []
+    end
+    |> get_in(tail)
+  end
+
   def get_in(%{} = map, [head | tail]) do
     case Map.get(map, head, :undefined) do
       :undefined ->

@@ -115,9 +115,17 @@ defmodule BubbleLib.MapUtil.AutoMapTest do
     assert %{2 => 3} == AutoMap.remove(%{"a" => %{"b" => [1]}, 2 => 3}, ["a", "b", 0])
   end
 
-  test "get in - filter" do
+  test "get in - filter on list value" do
     data = %{"foo" => [%{"a" => 1}, %{"a" => 2}]}
     assert [%{"a" => 1}] = AutoMap.get_in(data, ["foo", [a: 1]])
+  end
+
+  test "get in - filter on map value" do
+    data = %{"foo" => %{"a" => 1}}
+    assert [1] = AutoMap.get_in(data, ["foo", [id: "a"]])
+
+    data = %{"foo" => %{"a" => [1, 2, 3]}}
+    assert 3 = AutoMap.get_in(data, ["foo", [id: "a"], 0, 2])
   end
 
   test "iterate" do

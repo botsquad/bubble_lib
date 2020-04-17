@@ -88,9 +88,15 @@ defmodule BubbleLib.MapUtil.AutoMapTest do
     @behaviour Access
 
     @impl Access
-    def fetch(s, "foo") do
+    def fetch(_, "foo") do
       {:ok, "bar"}
     end
+
+    @impl Access
+    def get_and_update(_, _, _), do: nil
+
+    @impl Access
+    def pop(_, _), do: nil
   end
 
   test "get_in uses Access.fetch on structs" do

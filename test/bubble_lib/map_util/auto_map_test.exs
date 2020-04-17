@@ -83,6 +83,20 @@ defmodule BubbleLib.MapUtil.AutoMapTest do
     assert nil == AutoMap.get_in(%{"a" => %Location{lat: 1}}, ["a", :lat, :x])
   end
 
+  defmodule S do
+    defstruct x: 1
+    @behaviour Access
+
+    @impl Access
+    def fetch(s, "foo") do
+      {:ok, "bar"}
+    end
+  end
+
+  test "get_in uses Access.fetch on structs" do
+    assert "bar" == AutoMap.get_in(%{"a" => %S{}}, ["a", "foo"])
+  end
+
   test "get in traverses lists" do
     assert 1 == AutoMap.get_in(%{"a" => [1]}, [:a, 0])
     assert 123 == AutoMap.get_in(%{"a" => [1, 123]}, [:a, 1])

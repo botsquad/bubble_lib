@@ -76,10 +76,16 @@ defmodule BubbleLib.MapUtil.AutoMap do
 
   def get_in(%{__struct__: _} = struct, [head | tail]) do
     try do
-      get_in(Map.get(struct, String.to_existing_atom(head), nil), tail)
+      value = Kernel.get_in(struct, [head])
+      get_in(value, tail)
     rescue
-      ArgumentError ->
-        nil
+      UndefinedFunctionError ->
+        try do
+          get_in(Map.get(struct, String.to_existing_atom(head), nil), tail)
+        rescue
+          ArgumentError ->
+            nil
+        end
     end
   end
 

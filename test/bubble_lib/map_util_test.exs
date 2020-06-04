@@ -22,6 +22,11 @@ defmodule BubbleLib.MapUtilTest do
              deatomize([%{a: %Location{lat: 1, lon: 2, data: %{b: :c}}}])
   end
 
+  test "deatomize retains structs in map keys" do
+    assert [%{%Location{lat: 1, lon: 2, data: %{b: :c}} => :a}] ==
+             deatomize([%{%Location{lat: 1, lon: 2, data: %{b: :c}} => :a}])
+  end
+
   test "enum_materialize" do
     a = %{"foo" => "bar"}
     ets = ETS.new([a])

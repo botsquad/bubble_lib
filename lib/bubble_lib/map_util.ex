@@ -21,7 +21,10 @@ defmodule BubbleLib.MapUtil do
 
   def deatomize(%{} = map) do
     map
-    |> Enum.map(fn {k, v} -> {to_string(k), deatomize(v)} end)
+    |> Enum.map(fn
+      {%{__struct__: _} = k, v} -> {k, deatomize(v)}
+      {k, v} -> {to_string(k), deatomize(v)}
+    end)
     |> Map.new()
   end
 

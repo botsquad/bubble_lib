@@ -125,7 +125,7 @@ defimpl Enumerable, for: BubbleLib.MapUtil.AutoMap.ETS do
   end
 end
 
-defimpl Poison.Encoder, for: BubbleLib.MapUtil.AutoMap.ETS do
+defimpl Jason.Encoder, for: BubbleLib.MapUtil.AutoMap.ETS do
   def encode(_ets, _options) do
     "\"#data\""
   end

@@ -12,6 +12,7 @@ defmodule BubbleLib.MixProject do
       homepage_url: "https://github.com/botsquad/bubble_lib",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
+      consolidate_protocols: Mix.env() != :test,
       deps: deps()
     ]
   end
@@ -39,7 +40,7 @@ defmodule BubbleLib.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:poison, "~> 3.0"},
+      {:jason, "~> 1.0"},
       {:match_engine, "~> 1.0"}
     ]
   end

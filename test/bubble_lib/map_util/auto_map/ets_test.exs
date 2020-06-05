@@ -52,9 +52,9 @@ defmodule BubbleLib.MapUtil.AutoMap.ETSTest do
     assert [row2] == Enum.filter(ets, &(&1["foof"] == "barf"))
   end
 
-  test "Poison encode" do
+  test "Jason encode" do
     ets = ETS.new([%{"foo" => "bar"}])
-    assert "\"#data\"" == Poison.encode!(ets)
+    assert "\"#data\"" == Jason.encode!(ets)
   end
 
   @create_mfa {__MODULE__, :create, []}

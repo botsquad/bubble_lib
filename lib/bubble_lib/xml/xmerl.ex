@@ -19,7 +19,7 @@ defmodule BubbleLib.XML.Xmerl do
   end
 
   defp xmerl_element(value) when is_binary(value) do
-    [xmlText(value: value)]
+    xmlText(value: value)
   end
 
   defp xmerl_element([name, attributes, content]) do

@@ -25,8 +25,10 @@ defmodule BubbleLib.XML do
   @doc """
   Build an XML string out of a data structure.
 
-      iex> xml_build(["element", %{"attr" => "val"}, "content"])
-      "<element attr=\"val\">content</element>"
+  Examples:
+
+  iex> xml_build(["element", %{"attr" => "val"}, "content"])
+  "<element attr=\"val\">content</element>"
 
   """
   defdelegate xml_build(data), to: BubbleLib.XML.Build
@@ -34,8 +36,10 @@ defmodule BubbleLib.XML do
   @doc """
   Parse an XML string into a data structure.
 
-      iex> xml_parse("<element attr=\"val\">content</element>")
-      ["element", %{"attr" => "val"}, "content"]
+  Examples:
+
+  iex> xml_parse("<element attr=\"val\">content</element>")
+  ["element", %{"attr" => "val"}, "content"]
 
   """
   defdelegate xml_parse(data), to: BubbleLib.XML.Parse

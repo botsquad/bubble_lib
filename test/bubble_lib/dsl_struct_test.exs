@@ -33,5 +33,8 @@ defmodule BubbleLib.DslStructTest do
       |> BubbleLib.DslStruct.instantiate_structs()
 
     assert [%{"foo" => %Test{x: 2}}] = value
+
+    # ensure we can doubly instantiate structs
+    value |> BubbleLib.DslStruct.instantiate_structs()
   end
 end

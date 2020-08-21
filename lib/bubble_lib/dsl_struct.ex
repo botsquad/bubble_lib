@@ -64,6 +64,10 @@ defmodule BubbleLib.DslStruct do
     |> Map.put(:__struct__, mod)
   end
 
+  def instantiate_structs(%{__struct__: _} = struct) do
+    struct
+  end
+
   def instantiate_structs(%{} = map) do
     map
     |> Enum.map(fn {k, v} ->

@@ -5,7 +5,7 @@ defmodule BubbleLib.MixProject do
     [
       app: :bubble_lib,
       version: File.read!("VERSION"),
-      elixir: "~> 1.6",
+      elixir: "~> 1.9",
       description: description(),
       package: package(),
       source_url: "https://github.com/botsquad/bubble_lib",

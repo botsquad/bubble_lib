@@ -5,7 +5,7 @@ defmodule BubbleLib.XML.XPathTest do
   use BubbleLib.XML.XmerlRecords
 
   test "Error handling" do
-    invalid = ~w|/foo/bar::test(), /foo/@bar:first()|
+    invalid = ~w|/foo/bar::test() /foo/@bar:first()|
 
     for xpath <- invalid do
       assert_raise SyntaxError, fn -> xml_xpath_one("<foo />", xpath) end

@@ -205,12 +205,7 @@ defmodule BubbleLib.MapUtil.AutoMap do
   end
 
   def remove(list, [index]) when is_list(list) and is_integer(index) and index >= 0 do
-    list
-    |> Enum.zip(0..(length(list) - 1))
-    |> Enum.map(fn
-      {_, ^index} -> nil
-      {v, _} -> v
-    end)
+    List.delete_at(list, index)
   end
 
   def remove(%{} = map, [key]) do

@@ -120,7 +120,7 @@ defmodule BubbleLib.MapUtil.AutoMapTest do
 
   test "remove" do
     assert %{"a" => %{"y" => 2}} == AutoMap.remove(%{"a" => %{"x" => 1, "y" => 2}}, ["a", "x"])
-    assert %{"a" => [nil, 1]} == AutoMap.remove(%{"a" => [111, 1]}, ["a", 0])
+    assert %{"a" => [1]} == AutoMap.remove(%{"a" => [111, 1]}, ["a", 0])
   end
 
   test "remove collapse - map" do

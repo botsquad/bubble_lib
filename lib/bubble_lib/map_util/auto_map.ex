@@ -50,13 +50,12 @@ defmodule BubbleLib.MapUtil.AutoMap do
     {nil, _value} = Map.get_and_update(map, key, fun)
   end
 
-  defp access_get_and_update(nil, key, fun) when is_integer(key) and key >= 0 do
+  defp access_get_and_update(nil, key, fun) when is_integer(key) do
     {_, value} = fun.(nil)
     {nil, ensure_list(nil, key, value)}
   end
 
-  defp access_get_and_update(list, key, fun)
-       when is_list(list) and is_integer(key) and key >= 0 do
+  defp access_get_and_update(list, key, fun) when is_list(list) and is_integer(key) do
     {_, value} = fun.(Enum.at(list, key))
     {nil, ensure_list(list, key, value)}
   end
@@ -151,6 +150,10 @@ defmodule BubbleLib.MapUtil.AutoMap do
     :stop
   end
 
+  defp ensure_list(list, index, value) when index < 0 do
+    ensure_list(list, index + length(list), value)
+  end
+
   defp ensure_list(nil, 0, value) do
     [value]
   end
@@ -204,7 +207,7 @@ defmodule BubbleLib.MapUtil.AutoMap do
     map
   end
 
-  def remove(list, [index]) when is_list(list) and is_integer(index) and index >= 0 do
+  def remove(list, [index]) when is_list(list) and is_integer(index) do
     List.delete_at(list, index)
   end
 
@@ -212,15 +215,27 @@ defmodule BubbleLib.MapUtil.AutoMap do
     Map.delete(map, key)
   end
 
-  def remove(%{} = map, [head | tail]) do
-    value = remove(Map.get(map, head), tail)
+  def remove(%{} = map, [key | tail]) do
+    value = remove(Map.get(map, key), tail)
 
     case empty(value) do
       true ->
-        Map.delete(map, head)
+        Map.delete(map, key)
 
       false ->
-        Map.put(map, head, value)
+        Map.put(map, key, value)
+    end
+  end
+
+  def remove(list, [index | tail]) when is_list(list) and is_integer(index) do
+    value = remove(Enum.at(list, index), tail)
+
+    case empty(value) do
+      true ->
+        List.delete_at(list, index)
+
+      false ->
+        List.replace_at(list, index, value)
     end
   end
 

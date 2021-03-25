@@ -45,6 +45,9 @@ defmodule BubbleLib.MapUtil.AutoMapTest do
 
     assert [%{"lat" => 123, "x" => 2}] ==
              AutoMap.put_in([%{"x" => 2, "lat" => 1}], [0, "lat"], 123)
+
+    assert %{"a" => [66]} == AutoMap.put_in(%{"a" => nil}, ["a", 0], 66)
+    assert %{"a" => [1, 2, 66]} == AutoMap.put_in(%{"a" => [1, 2, 3]}, ["a", -1], 66)
   end
 
   test "put_in w/ struct" do
@@ -121,6 +124,11 @@ defmodule BubbleLib.MapUtil.AutoMapTest do
   test "remove" do
     assert %{"a" => %{"y" => 2}} == AutoMap.remove(%{"a" => %{"x" => 1, "y" => 2}}, ["a", "x"])
     assert %{"a" => [1]} == AutoMap.remove(%{"a" => [111, 1]}, ["a", 0])
+
+    assert %{"foo" => [%{"bar" => [0, 2, 3]}, 2, 3]} ==
+             AutoMap.remove(%{"foo" => [%{"bar" => [0, 1, 2, 3]}, 2, 3]}, ["foo", 0, "bar", 1])
+
+    assert [1, 2] == AutoMap.remove([1, 2, 3], [-1])
   end
 
   test "remove collapse - map" do

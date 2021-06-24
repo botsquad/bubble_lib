@@ -6,7 +6,8 @@ defmodule BubbleLib.DslStructTest do
   end
 
   require BubbleLib.DslStruct
-  BubbleLib.DslStruct.jason_derive(Test)
+  alias BubbleLib.DslStruct
+  DslStruct.jason_derive(Test)
 
   test "DSL struct" do
     a = %Test{x: 1}
@@ -30,11 +31,15 @@ defmodule BubbleLib.DslStructTest do
 
     value =
       Jason.decode!(x)
-      |> BubbleLib.DslStruct.instantiate_structs()
+      |> DslStruct.instantiate_structs()
 
     assert [%{"foo" => %Test{x: 2}}] = value
 
     # ensure we can doubly instantiate structs
-    value |> BubbleLib.DslStruct.instantiate_structs()
+    value |> DslStruct.instantiate_structs()
+  end
+
+  test "struct from map" do
+    assert %Test{x: "1", y: "2"} = DslStruct.struct_from_map(%Test{}, %{"x" => "1", "y" => "2"})
   end
 end

@@ -81,4 +81,13 @@ defmodule BubbleLib.DslStruct do
   end
 
   def instantiate_structs(value), do: value
+
+  def struct_from_map(struct, input) do
+    Enum.reduce(Map.to_list(struct), struct, fn {k, _}, acc ->
+      case Map.fetch(input, Atom.to_string(k)) do
+        {:ok, v} -> %{acc | k => v}
+        :error -> acc
+      end
+    end)
+  end
 end

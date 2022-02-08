@@ -216,14 +216,18 @@ defmodule BubbleLib.MapUtil.AutoMap do
   end
 
   def remove(%{} = map, [key | tail]) do
-    value = remove(Map.get(map, key), tail)
+    if Map.has_key?(map, key) do
+      value = remove(Map.get(map, key), tail)
 
-    case empty(value) do
-      true ->
-        Map.delete(map, key)
+      case empty(value) do
+        true ->
+          Map.delete(map, key)
 
-      false ->
-        Map.put(map, key, value)
+        false ->
+          Map.put(map, key, value)
+      end
+    else
+      map
     end
   end
 

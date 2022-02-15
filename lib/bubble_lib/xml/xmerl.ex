@@ -7,7 +7,7 @@ defmodule BubbleLib.XML.Xmerl do
   def to_xmerl(content) when is_binary(content) do
     {doc, []} =
       content
-      |> :binary.bin_to_list()
+      |> :erlang.binary_to_list()
       |> :xmerl_scan.string(quiet: true)
 
     doc
@@ -50,9 +50,13 @@ defmodule BubbleLib.XML.Xmerl do
     |> Enum.map(&xmerl_element/1)
   end
 
+  defmodule Export do
+    def unquote({:"#xml-inheritance#", [], nil}), do: [:xmerl_xml]
+    def unquote({:"#text#", [], [Macro.var(:text, nil)]}), do: text
+  end
+
   def xmerl_to_string(e) do
-    "<?xml version=\"1.0\"?>" <> xml =
-      IO.chardata_to_string(:xmerl.export_simple([e], :xmerl_xml))
+    "<?xml version=\"1.0\"?>" <> xml = IO.chardata_to_string(:xmerl.export_simple([e], Export))
 
     xml
   end

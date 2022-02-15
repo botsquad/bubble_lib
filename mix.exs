@@ -41,7 +41,8 @@ defmodule BubbleLib.MixProject do
   defp deps do
     [
       {:jason, "~> 1.0"},
-      {:match_engine, "~> 1.0"}
+      {:match_engine, "~> 1.0"},
+      {:html_entities, "~> 0.5"}
     ]
   end
 end

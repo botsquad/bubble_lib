@@ -52,7 +52,7 @@ defmodule BubbleLib.XML.Xmerl do
 
   defmodule Export do
     def unquote({:"#xml-inheritance#", [], nil}), do: [:xmerl_xml]
-    def unquote({:"#text#", [], [Macro.var(:text, nil)]}), do: text
+    def unquote({:"#text#", [], [Macro.var(:text, nil)]}), do: HtmlEntities.encode(text)
   end
 
   def xmerl_to_string(e) do

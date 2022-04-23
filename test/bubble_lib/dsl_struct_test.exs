@@ -39,6 +39,17 @@ defmodule BubbleLib.DslStructTest do
     value |> DslStruct.instantiate_structs()
   end
 
+  test "jason encode + decode + instantiate nested" do
+    orig = %Test{x: [%Test{}]}
+
+    value =
+      Jason.encode!(orig)
+      |> Jason.decode!()
+      |> DslStruct.instantiate_structs()
+
+    assert value == orig
+  end
+
   test "struct from map" do
     assert %Test{x: "1", y: "2"} = DslStruct.struct_from_map(%Test{}, %{"x" => "1", "y" => "2"})
   end

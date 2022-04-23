@@ -54,11 +54,17 @@ defmodule BubbleLib.DslStruct do
   end
 
   def instantiate_structs(%{"__struct__" => mod} = struct) do
+    struct =
+      struct
+      |> Enum.map(fn {k, v} ->
+        {k, instantiate_structs(v)}
+      end)
+      |> Map.new()
+
     mod = String.to_atom(mod)
     orig = apply(mod, :__struct__, [])
-    fields = apply(mod, :__struct__, []) |> Map.keys()
 
-    fields
+    Map.keys(orig)
     |> Enum.map(fn k -> {k, Map.get(struct, to_string(k)) || Map.get(orig, k)} end)
     |> Map.new()
     |> Map.put(:__struct__, mod)

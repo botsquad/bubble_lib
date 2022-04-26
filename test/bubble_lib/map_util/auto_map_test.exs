@@ -167,4 +167,18 @@ defmodule BubbleLib.MapUtil.AutoMapTest do
     assert {:next, 3, value} = AutoMap.loop_next(value)
     assert :stop = AutoMap.loop_next(value)
   end
+
+  describe "update using match engine" do
+    test "with simple equality" do
+      records = [%{"a" => 1, "b" => 2}, %{"a" => 2, "b" => 3}, %{"a" => 1, "b" => 4}]
+      records = AutoMap.put_in(records, [[a: 1], "b"], 10)
+      assert [%{"a" => 1, "b" => 10}, %{"a" => 2, "b" => 3}, %{"a" => 1, "b" => 10}] = records
+    end
+
+    test "with multiple clauses" do
+      records = [%{"a" => 1, "b" => 2}, %{"a" => 2, "b" => 3}, %{"a" => 1, "b" => 4}]
+      records = AutoMap.put_in(records, [[_and: [a: 1, b: 2]], "b"], 10)
+      assert [%{"a" => 1, "b" => 10}, %{"a" => 2, "b" => 3}, %{"a" => 1, "b" => 4}] = records
+    end
+  end
 end

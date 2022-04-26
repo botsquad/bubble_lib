@@ -60,6 +60,15 @@ defmodule BubbleLib.MapUtil.AutoMap do
     {nil, ensure_list(list, key, value)}
   end
 
+  defp access_get_and_update(list, query, fun) when is_list(list) and is_list(query) do
+    update_func =
+      Access.filter(fn doc ->
+        MatchEngine.filter(query, doc)["score"] == 1
+      end)
+
+    update_func.(:get_and_update, list, fun)
+  end
+
   defp access_get_and_update(_any, key, fun) do
     m = AutoMap.put_in(%{}, [key], elem(fun.(nil), 1))
     {nil, m}

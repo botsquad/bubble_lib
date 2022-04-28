@@ -180,5 +180,39 @@ defmodule BubbleLib.MapUtil.AutoMapTest do
       records = AutoMap.put_in(records, [[_and: [a: 1, b: 2]], "b"], 10)
       assert [%{"a" => 1, "b" => 10}, %{"a" => 2, "b" => 3}, %{"a" => 1, "b" => 4}] = records
     end
+
+    test "in nested key" do
+      records = %{
+        "users" => [%{"a" => 1, "b" => 2}, %{"a" => 2, "b" => 3}, %{"a" => 1, "b" => 4}]
+      }
+
+      records = AutoMap.put_in(records, ["users", [a: 1], "b"], 10)
+
+      assert %{"users" => [%{"a" => 1, "b" => 10}, %{"a" => 2, "b" => 3}, %{"a" => 1, "b" => 10}]} =
+               records
+    end
+
+    test "in nested list" do
+      records = [
+        [%{"a" => 1, "b" => 2}, %{"a" => 2, "b" => 3}, %{"a" => 1, "b" => 4}]
+      ]
+
+      records = AutoMap.put_in(records, [0, [a: 1], "b"], 10)
+      assert [[%{"a" => 1, "b" => 10}, %{"a" => 2, "b" => 3}, %{"a" => 1, "b" => 10}]] = records
+    end
+
+    test "chained" do
+      records = [
+        %{"a" => 1, "b" => [%{"c" => 1, "d" => 2}, %{"c" => 2, "d" => 3}]},
+        %{"a" => 2, "b" => [%{"c" => 1, "d" => 2}, %{"c" => 2, "d" => 3}]}
+      ]
+
+      records = AutoMap.put_in(records, [[a: 1], "b", [c: 1], "d"], 10)
+
+      assert [
+               %{"a" => 1, "b" => [%{"c" => 1, "d" => 10}, %{"c" => 2, "d" => 3}]},
+               %{"a" => 2, "b" => [%{"c" => 1, "d" => 2}, %{"c" => 2, "d" => 3}]}
+             ] = records
+    end
   end
 end

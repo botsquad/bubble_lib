@@ -47,7 +47,7 @@ defmodule BubbleLib.MapUtil.AutoMap do
   end
 
   defp access_get_and_update(map, key, fun) when is_map(map) do
-    {nil, _value} = Map.get_and_update(map, key, fun)
+    Map.get_and_update(map, key, fun)
   end
 
   defp access_get_and_update(nil, key, fun) when is_integer(key) do

@@ -101,4 +101,31 @@ defmodule BubbleLib.MapUtil do
   def enum_materialize(value) do
     value
   end
+
+  @doc """
+  Recursively run a mapper function on the 'leaf nodes' of the given nested term.
+
+  Leaf nodes are any term that are not a list or a map. Tuples and structs are
+  also considered leaf nodes!
+  """
+  @spec map_leafs(term(), (term() -> term())) :: term()
+  def map_leafs(value, mapper)
+
+  def map_leafs(%{__struct__: _} = value, mapper) do
+    mapper.(value)
+  end
+
+  def map_leafs(%{} = map, mapper) do
+    Map.new(Enum.map(map, fn {k, v} -> {k, map_leafs(v, mapper)} end))
+  end
+
+  def map_leafs([], _mapper), do: []
+
+  def map_leafs([_ | _] = list, mapper) do
+    Enum.map(list, &map_leafs(&1, mapper))
+  end
+
+  def map_leafs(value, mapper) do
+    mapper.(value)
+  end
 end

@@ -43,4 +43,36 @@ defmodule BubbleLib.MapUtilTest do
 
     assert %{"x" => [%{"foo" => "bar"}]} == normalize(%{x: ets, y: nil})
   end
+
+  describe "map_leafs" do
+    defp test_map_leaf(pairs, mapper) do
+      for {input, expected} <- pairs do
+        assert expected == map_leafs(input, mapper)
+      end
+    end
+
+    defmodule S do
+      defstruct x: nil
+    end
+
+    test "map_leafs" do
+      test_map_leaf(
+        [
+          {1, 2},
+          {[1], [2]},
+          {%{a: 1}, %{a: 2}},
+          {%{:a => 1, "b" => 4}, %{:a => 2, "b" => 5}},
+          {%{a: [1]}, %{a: [2]}},
+          {[%{a: 1}], [%{a: 2}]},
+          {[%S{}], [:struct]},
+          {{1}, {1}}
+        ],
+        &mapper/1
+      )
+    end
+
+    defp mapper(n) when is_integer(n), do: n + 1
+    defp mapper(%{__struct__: _}), do: :struct
+    defp mapper(t) when is_tuple(t), do: t
+  end
 end

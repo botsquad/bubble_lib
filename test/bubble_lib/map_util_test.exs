@@ -65,7 +65,8 @@ defmodule BubbleLib.MapUtilTest do
           {%{a: [1]}, %{a: [2]}},
           {[%{a: 1}], [%{a: 2}]},
           {[%S{}], [:struct]},
-          {{1}, {1}}
+          {{1}, {1}},
+          {[true, false], [false, false]}
         ],
         &mapper/1
       )
@@ -74,5 +75,7 @@ defmodule BubbleLib.MapUtilTest do
     defp mapper(n) when is_integer(n), do: n + 1
     defp mapper(%{__struct__: _}), do: :struct
     defp mapper(t) when is_tuple(t), do: t
+    defp mapper(true), do: false
+    defp mapper(t), do: t
   end
 end

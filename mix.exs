@@ -42,7 +42,8 @@ defmodule BubbleLib.MixProject do
     [
       {:jason, "~> 1.0"},
       {:match_engine, "~> 1.0"},
-      {:html_entities, "~> 0.5"}
+      {:html_entities, "~> 0.5"},
+      {:ex_doc, "~> 0.29", runtime: false, only: :dev}
     ]
   end
 end

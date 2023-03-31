@@ -5,6 +5,15 @@ defmodule BubbleLib.MapUtil.AutoMapTest do
     defstruct [:lat, :lon]
   end
 
+  defmodule WithAccess do
+    defstruct [:name]
+    @behaviour Access
+
+    def fetch(term, key), do: Map.get(term, key)
+    def pop(data, key), do: Map.pop(data, key)
+    def get_and_update(data, "name", fun), do: Map.get_and_update(data, :name, fun)
+  end
+
   alias BubbleLib.MapUtil.AutoMap
 
   test "put in" do
@@ -15,6 +24,14 @@ defmodule BubbleLib.MapUtil.AutoMapTest do
     assert %{"a" => %{}} == AutoMap.put_in(%{"a" => %{"b" => 1}}, [:a], %{})
     assert %{"a" => %{"c" => 2}} == AutoMap.put_in(%{"a" => %{"b" => 1}}, [:a], %{"c" => 2})
     assert %{"payload" => "aap"} == AutoMap.put_in(%{"payload" => %{"x" => 2}}, [:payload], "aap")
+
+    assert %{"struct" => %WithAccess{name: "aap"}} =
+             AutoMap.put_in(%{"struct" => %WithAccess{}}, ["struct", :name], "aap")
+
+    assert_raise FunctionClauseError, fn ->
+      assert %{"struct" => %WithAccess{name: "aap"}} =
+               AutoMap.put_in(%{"struct" => %WithAccess{}}, ["struct", :nope], "aap")
+    end
   end
 
   test "put in w/ array" do

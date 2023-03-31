@@ -25,21 +25,24 @@ defmodule BubbleLib.MapUtil.AutoMap do
   defp kernel_get_and_update_in(data, [head | tail], fun) when is_function(fun, 1),
     do: access_get_and_update(data, head, &kernel_get_and_update_in(&1, tail, fun))
 
-  defp access_get_and_update(%{__struct__: _} = struct, key, fun) when is_binary(key) do
-    try do
-      key = String.to_existing_atom(key)
+  defp access_get_and_update(%module{} = struct, key, fun) when is_binary(key) do
+    module.get_and_update(struct, key, fun)
+  rescue
+    UndefinedFunctionError ->
+      try do
+        key = String.to_existing_atom(key)
 
-      case Map.fetch(struct, key) do
-        {:ok, _} ->
-          {nil, _value} = Map.get_and_update(struct, key, fun)
+        case Map.fetch(struct, key) do
+          {:ok, _} ->
+            {nil, _value} = Map.get_and_update(struct, key, fun)
 
-        :error ->
+          :error ->
+            {nil, struct}
+        end
+      rescue
+        ArgumentError ->
           {nil, struct}
       end
-    rescue
-      ArgumentError ->
-        {nil, struct}
-    end
   end
 
   defp access_get_and_update(map, key, fun) when is_map(map) and is_atom(key) do

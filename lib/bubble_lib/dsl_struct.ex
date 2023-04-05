@@ -27,10 +27,22 @@ defmodule BubbleLib.DslStruct do
       defoverridable fetch: 2
 
       @impl Access
-      defdelegate get_and_update(a, b, c), to: Map
+      def get_and_update(term, key, fun) when key in unquote(str_fields) do
+        get_and_update(term, String.to_atom(key), fun)
+      end
+
+      def get_and_update(term, key, fun), do: Map.get_and_update(term, key, fun)
+
+      defoverridable get_and_update: 3
 
       @impl Access
-      defdelegate pop(a, b), to: Map
+      def pop(term, key) when key in unquote(str_fields) do
+        pop(term, String.to_atom(key))
+      end
+
+      def pop(term, key), do: Map.pop(term, key)
+
+      defoverridable pop: 2
 
       def __jason_encode__(struct, opts, only) do
         struct

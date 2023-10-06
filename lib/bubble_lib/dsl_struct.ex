@@ -48,7 +48,7 @@ defmodule BubbleLib.DslStruct do
         struct
         |> Map.keys()
         |> Enum.reject(&(&1 != "__struct__" && (is_list(only) && &1 in only)))
-        |> Enum.map(fn k -> {to_string(k), Map.get(struct, k)} end)
+        |> Enum.map(fn k -> {Atom.to_string(k), Map.get(struct, k)} end)
         |> Map.new()
         |> Jason.Encode.map(opts)
       end
@@ -77,7 +77,7 @@ defmodule BubbleLib.DslStruct do
     orig = apply(mod, :__struct__, [])
 
     Map.keys(orig)
-    |> Enum.map(fn k -> {k, Map.get(struct, to_string(k)) || Map.get(orig, k)} end)
+    |> Enum.map(fn k -> {k, Map.get(struct, Atom.to_string(k)) || Map.get(orig, k)} end)
     |> Map.new()
     |> Map.put(:__struct__, mod)
   end

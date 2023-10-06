@@ -13,19 +13,24 @@ defmodule BubbleLib.MapUtil do
     |> drop_nils()
   end
 
-  def deatomize(%{__struct__: _} = struct) do
+  def deatomize(%mod{} = struct) do
     struct
-    |> Map.keys()
-    |> Enum.reduce(struct, fn k, s -> Map.put(s, k, deatomize(Map.get(struct, k))) end)
+    |> Map.from_struct()
+    |> Enum.reduce(struct, fn
+      {k, v}, acc when is_map(v) or is_list(v) -> Map.put(acc, k, deatomize(v))
+      {k, v}, acc -> Map.put(acc, k, v)
+    end)
+    |> Map.put(:__struct__, mod)
   end
 
   def deatomize(%{} = map) do
-    map
-    |> Enum.map(fn
-      {%{__struct__: _} = k, v} -> {k, deatomize(v)}
-      {k, v} -> {to_string(k), deatomize(v)}
+    Map.new(map, fn
+      {%_{} = k, v} -> {k, deatomize(v)}
+      {k, v} when is_atom(k) and (is_map(v) or is_list(v)) -> {Atom.to_string(k), deatomize(v)}
+      {k, v} when is_map(v) or is_list(v) -> {k, deatomize(v)}
+      {k, v} when is_atom(k) -> {Atom.to_string(k), v}
+      {k, v} -> {k, v}
     end)
-    |> Map.new()
   end
 
   def deatomize(list) when is_list(list) do

@@ -64,13 +64,11 @@ defmodule BubbleLib.MapUtil do
   end
 
   def deep_keyword_to_map(value) when is_map(value) do
-    Enum.map(value, fn {k, v} -> {k, deep_keyword_to_map(v)} end)
-    |> Enum.into(%{})
+    Map.new(value, fn {k, v} -> {k, deep_keyword_to_map(v)} end)
   end
 
   def deep_keyword_to_map([{_, _} | _] = value) do
-    Enum.map(value, fn {k, v} -> {k, deep_keyword_to_map(v)} end)
-    |> Enum.into(%{})
+    Map.new(value, fn {k, v} -> {k, deep_keyword_to_map(v)} end)
   end
 
   def deep_keyword_to_map(value) when is_list(value) do
@@ -88,9 +86,7 @@ defmodule BubbleLib.MapUtil do
   end
 
   def enum_materialize(%{} = map) do
-    map
-    |> Enum.map(fn {k, v} -> {k, enum_materialize(v)} end)
-    |> Map.new()
+    Map.new(map, fn {k, v} -> {k, enum_materialize(v)} end)
   end
 
   def enum_materialize(list) when is_list(list) do

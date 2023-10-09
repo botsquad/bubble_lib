@@ -78,7 +78,7 @@ defmodule BubbleLib.MapUtil.AutoMap do
   end
 
   def get_in(%{} = map, [head | tail]) when is_atom(head) do
-    get_in(map, [to_string(head) | tail])
+    get_in(map, [Atom.to_string(head) | tail])
   end
 
   def get_in(%ETS{} = struct, path) do
